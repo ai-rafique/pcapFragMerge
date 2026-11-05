@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# PyInstaller
+build/*
+dist/*
+*.spec
+
+# Captures and tool output (large, often sensitive)
+*.pcap
+*.pcapng
+*.cap
+*.part
+*_chunks/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
