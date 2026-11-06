@@ -8,16 +8,39 @@ venv/
 build/*
 dist/*
 *.spec
+# ...except the hand-written build spec that ships with the project
+!PcapChunk.spec
+
+# PcapChunk working state (inside chunk output folders)
+.pcapchunk-staging/
+.pcapchunk-incomplete
+.pcapchunk.lock
 
 # Captures and tool output (large, often sensitive)
 *.pcap
 *.pcapng
 *.cap
+*.pcap.gz
+*.pcapng.gz
+*.cap.gz
+*.pcap.zst
+*.pcapng.zst
+*.cap.zst
 *.part
 *_chunks/
+
+# Tests / coverage / typing / packaging artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+docs/.build/
 
 # OS / editor
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+*.spec
+*.toml
