@@ -15,15 +15,17 @@ jobs:
   test:
     name: test (${{ matrix.os }}, python ${{ matrix.python }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
+          # Pin the Ubuntu image: ubuntu-latest moved to 26.04, which no
+          # longer has prebuilt Python versions below 3.12.
+          - ubuntu-24.04
           - windows-latest
           - macos-latest
         python:
-          - "3.9"
           - "3.12"
           - "3.13"
     steps:
@@ -41,14 +43,38 @@ jobs:
       - name: Run the unit tests
         run: python -m unittest discover -s tests -v
 
+  test-floor:
+    # Python 3.10 is the minimum supported version. It is tested in a container
+    # so the job does not depend on which Python builds the runner image ships.
+    name: test (python 3.10, container)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    container: "python:3.10-slim"
+    steps:
+      # The slim image has no git, which actions/checkout needs.
+      - name: Install git for checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Byte-compile the modules
+        run: python -m py_compile pcapchunk.py pcapchunk_gui.py
+
+      - name: Run the unit tests
+        run: python -m unittest discover -s tests -v
+
   build:
     name: PyInstaller build (tag)
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: test
+    needs: [test, test-floor]
     # The spec embeds a Windows icon and version resource; build the Windows
     # one-directory bundle here. Build other platforms with the same spec on
     # their own runners (PyInstaller does not cross-compile).
     runs-on: windows-latest
+    timeout-minutes: 20
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4

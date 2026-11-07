@@ -39,8 +39,8 @@ headers it needs, so each one is a valid capture on its own.
 
 | What | Needs |
 |---|---|
-| Command line (`split`, `merge`, `verify`, `info`, `trim`, `convert`, `combine`, `demux`) | Python 3.8 or newer. Standard library only. |
-| Desktop GUI | Python 3.8+, Tkinter (ships with the python.org installers; on Debian/Ubuntu install `python3-tk`) |
+| Command line (`split`, `merge`, `verify`, `info`, `trim`, `convert`, `combine`, `demux`) | Python 3.10 or newer. Standard library only. |
+| Desktop GUI | Python 3.10+, Tkinter (ships with the python.org installers; on Debian/Ubuntu install `python3-tk`) |
 | Drag and drop *inside* the GUI window | Optional `tkinterdnd2` package; without it use the Browse buttons |
 | zstd-compressed chunks (`--compress zstd`) | Python 3.14+ (stdlib `compression.zstd`); gzip always works |
 | Building `PcapChunk.exe` | PyInstaller |
@@ -872,6 +872,7 @@ python -m unittest discover -s tests -v
 python -m py_compile pcapchunk.py pcapchunk_gui.py
 ```
 
-CI runs on Linux, Windows, and macOS with Python 3.9, 3.12, and 3.13
+CI runs on Linux, Windows, and macOS with Python 3.12 and 3.13, plus Python
+3.10 (the minimum supported version) in a container
 (`.github/workflows/ci.yml`). Tagging a release `v*` additionally builds a
 PyInstaller artifact.

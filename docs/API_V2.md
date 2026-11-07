@@ -5,7 +5,7 @@ This document is the single source of truth for the v2 public API. The engine
 (`tests/`) consume it. Do not change a signature here without the Lead updating
 this file and notifying everyone.
 
-Python target: **3.8+**, standard library only at runtime. No threads in the
+Python target: **3.10+**, standard library only at runtime. No threads in the
 engine or the GUI. All long operations are generators that yield progress and
 return a summary dict.
 

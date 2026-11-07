@@ -66,9 +66,10 @@ transformations, and a rewritten GUI.
   combine, and demux.
 - **Packaging and tooling**: `pyproject.toml` with the `pcapchunk` and
   `pcapchunk-gui` console scripts and an optional `dev` extra for PyInstaller;
-  updated `PcapChunk.spec` (one-file windowed build, icon, UPX); multi-size
-  `assets/icon.ico` + `assets/icon.png`; GitHub Actions CI (Ubuntu/Windows/
-  macOS × Python 3.9/3.12/3.13) and a tag-triggered PyInstaller build artifact.
+  updated `PcapChunk.spec` (one-directory windowed build, icon and version
+  metadata, UPX); multi-size `assets/icon.ico` + `assets/icon.png`; GitHub
+  Actions CI (Ubuntu/Windows/macOS × Python 3.12/3.13 plus a Python 3.10
+  container leg) and a tag-triggered PyInstaller build artifact.
 - **GUI rewrite**: tabs for Split (with batch queue, all split modes, presets,
   compression, naming, resume, dry-run preview, index CSV), Merge, Verify
   (chunk table with hash status), and Tools (info, convert, trim with filters);
@@ -98,8 +99,12 @@ transformations, and a rewritten GUI.
 - Long operations remain generators that yield `(done, total)` and can be
   cancelled with `gen.close()` without leaving partial output; the GUI uses the
   same API as the CLI.
-- Python 3.8+ and standard library only at runtime, with no runtime
-  dependencies; PyInstaller and tkinterdnd2 are optional.
+- Python 3.10+ and standard library only at runtime, with no runtime
+  dependencies; PyInstaller and tkinterdnd2 are optional. Python 3.8 and 3.9
+  are end-of-life and are no longer supported or tested.
+- CI pins `ubuntu-24.04` (instead of `ubuntu-latest`, which moved to 26.04 and
+  stopped providing Python below 3.12), tests 3.12/3.13 on Linux, Windows and
+  macOS, and tests the minimum 3.10 in a `python:3.10-slim` container.
 
 ### Fixed
 
